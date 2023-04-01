@@ -17,10 +17,10 @@
 "use strict";
 
 function RequestQueue(maxTotal) {
-  maxTotal = parseInt(maxTotal)>0?parseInt(maxTotal):Number.POSITIVE_INFINITY;
+  maxTotal = Number.POSITIVE_INFINITY;
 
-  var index = 0; // incrementing, used for unique ids
-  var finished = 0; // Number of finished requests
+  var index = 0;
+  var finished = 0;
   var pending = [];
   var running = [];
 
@@ -32,11 +32,11 @@ function RequestQueue(maxTotal) {
   }
 
   var fire = function() {
-    if(pending.length > 0 && finished < maxTotal) {
+    if(pending.length > 0) {
       var req = pending.shift();
       running.push(req);
       req.__result = req.__fun.call(req.__thisArg,req);
-        fire();
+      fire();
     }
 
   };
@@ -54,7 +54,7 @@ function RequestQueue(maxTotal) {
 
   this.add = function(req,fun,thisArg) {
     req.id = index++;
-       fire();
+
     req.__fun = typeof(fun) === 'function'?fun:defaultFunction;
     req.__thisArg = thisArg;
 
@@ -81,7 +81,7 @@ function RequestQueue(maxTotal) {
       };
 
     pending.push(req);
-  
+  fire();
   };
 
   this.abortRunning = function() {
