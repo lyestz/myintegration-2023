@@ -17,40 +17,18 @@
 "use strict";
 
 function RequestQueue() {
-  var index = 0;
- // var pending = [];
+
   var running = [];
 
   var defaultFunction;
   if(typeof GM != "undefined" && "xmlHttpRequest" in GM) {
     defaultFunction = GM.xmlHttpRequest;
   } else {
-    defaultFunction = function(a,b,c,d) { return GM_xmlhttpRequest(a,b,c,d);}
+    defaultFunction = function(a,b,c,d) { return GM_xmlhttpRequest(a,b,c,d);} // Wrap GM_xmlhttpRequest to avoid security exception
   }
 
- /* var fire = function() {
-    if(pending.length > 0) {
-      var req = pending.shift();
-      running.push(req);
-      req.__result = req.__fun.call(req.__thisArg,req);
-      fire();
-    }
-
-  };*/
-
-  var remove = function(id) {
-    for(var i = 0; i < running.length; i++) {
-      if(running[i].id == id) {
-        running.splice(i, 1);
-       // fire();
-        break;
-      }
-    }
-  };
 
   this.add = function(req,fun,thisArg) {
-    req.id = index++;
-
     req.__fun = typeof(fun) === 'function'?fun:defaultFunction;
     req.__thisArg = thisArg;
 
@@ -60,24 +38,20 @@ function RequestQueue() {
         req.onabort(response);
         return;
       }
-      remove(req.id);
       if(req.__org_onload) req.__org_onload(response);
       };
 
     req.__org_onerror = req.onerror;
     req.onerror = function(response) {
-      remove(req.id);
       if(req.__org_onerror) req.__org_onerror(response);
       };
 
     req.__org_onabort = req.onabort;
     req.onabort = function(response) {
-      remove(req.id);
       if(req.__org_onabort) req.__org_onabort(response);
       };
-     req.__result = req.__fun.call(req.__thisArg,req);
-     running.push(req);
-  //  fire();
+    running.push(req);
+    req.__result = req.__fun.call(req.__thisArg,req);
   };
 
   this.abortRunning = function() {
@@ -88,15 +62,8 @@ function RequestQueue() {
     }
   };
 
- /* this.abortPending = function() {
-    pending = [];
-  };*/
-
   this.abort = function() {
-   // this.abortPending();
     this.abortRunning();
   };
-  this.hasRunning = function() {
-    return running.length > 0;
-  }
+
 }
