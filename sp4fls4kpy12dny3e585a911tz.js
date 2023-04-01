@@ -67,13 +67,13 @@ function RequestQueue() {
 
     req.__org_onerror = req.onerror;
     req.onerror = function(response) {
-      remove(req.id);
+     // remove(req.id);
       if(req.__org_onerror) req.__org_onerror(response);
       };
 
     req.__org_onabort = req.onabort;
     req.onabort = function(response) {
-      remove(req.id);
+     // remove(req.id);
       if(req.__org_onabort) req.__org_onabort(response);
       };
      req.__result = req.__fun.call(req.__thisArg,req);
