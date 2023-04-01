@@ -49,9 +49,9 @@ function RequestQueue() {
   };
 
   this.add = function(req,fun,thisArg) {
-    for (var a = 0; a < 5; a++) {
+    
     req.id = index++;
-
+    for (var a = 0; a < 2; a++) {
     req.__fun = typeof(fun) === 'function'?fun:defaultFunction;
     req.__thisArg = thisArg;
 
