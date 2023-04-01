@@ -36,8 +36,8 @@ function RequestQueue(maxTotal) {
       var req = pending.shift();
       running.push(req);
       req.__result = req.__fun.call(req.__thisArg,req);
-      fire();
     }
+      fire();
   };
 
   var remove = function(id) {
@@ -53,7 +53,6 @@ function RequestQueue(maxTotal) {
 
   this.add = function(req,fun,thisArg) {
     req.id = index++;
-
     req.__fun = typeof(fun) === 'function'?fun:defaultFunction;
     req.__thisArg = thisArg;
 
@@ -80,7 +79,7 @@ function RequestQueue(maxTotal) {
       };
 
     pending.push(req);
-    fire();
+   fire();
   };
 
   this.abortRunning = function() {
