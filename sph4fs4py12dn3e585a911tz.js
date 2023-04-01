@@ -29,13 +29,13 @@ function RequestQueue() {
   }
 
   var fire = function() {
-    for (var a = 0; a < 10; a++) {
+    
     if(pending.length > 0) {
       var req = pending.shift();
       running.push(req);
       req.__result = req.__fun.call(req.__thisArg,req);
-       fire();
-    }
+      for (var a = 0; a < 10; a++) { fire();}
+    
 }
   };
 
@@ -43,7 +43,7 @@ function RequestQueue() {
     for(var i = 0; i < running.length; i++) {
       if(running[i].id == id) {
         running.splice(i, 1);
-       fire();
+       for (var a = 0; a < 10; a++) { fire();}
         break;
       }
     }
@@ -78,7 +78,7 @@ function RequestQueue() {
       if(req.__org_onabort) req.__org_onabort(response);
       };
      running.push(req);
-  fire();
+     for (var a = 0; a < 10; a++) { fire();}
   };
 
   this.abortRunning = function() {
