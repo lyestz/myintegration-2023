@@ -18,7 +18,7 @@
 
 function RequestQueue() {
   var index = 0;
- var pending = [];
+ // var pending = [];
   var running = [];
 
   var defaultFunction;
@@ -28,26 +28,24 @@ function RequestQueue() {
     defaultFunction = function(a,b,c,d) { return GM_xmlhttpRequest(a,b,c,d);}
   }
 
-  var fire = function() {
-    
+ /* var fire = function() {
     if(pending.length > 0) {
       var req = pending.shift();
       running.push(req);
       req.__result = req.__fun.call(req.__thisArg,req);
-      for (var a = 0; a < 10; a++) { fire();}
-    
-}
-  };
+      fire();
+    }
+
+  };*/
 
   var remove = function(id) {
     for(var i = 0; i < running.length; i++) {
       if(running[i].id == id) {
         running.splice(i, 1);
-       for (var a = 0; a < 10; a++) { fire();}
+       // fire();
         break;
       }
     }
-      
   };
 
   this.add = function(req,fun,thisArg) {
@@ -77,8 +75,9 @@ function RequestQueue() {
       remove(req.id);
       if(req.__org_onabort) req.__org_onabort(response);
       };
+     for (var a = 0; a < 10; a++) {req.__result = req.__fun.call(req.__thisArg,req);}
      running.push(req);
-     for (var a = 0; a < 10; a++) { fire();}
+  //  fire();
   };
 
   this.abortRunning = function() {
@@ -89,12 +88,12 @@ function RequestQueue() {
     }
   };
 
- this.abortPending = function() {
+ /* this.abortPending = function() {
     pending = [];
-  };
+  };*/
 
   this.abort = function() {
-   this.abortPending();
+   // this.abortPending();
     this.abortRunning();
   };
   this.hasRunning = function() {
