@@ -29,23 +29,26 @@ function RequestQueue() {
   }
 
  /* var fire = function() {
+ 
+    for (var a = 0; a < 10; a++) {
     if(pending.length > 0) {
       var req = pending.shift();
       running.push(req);
       req.__result = req.__fun.call(req.__thisArg,req);
-       for (var i = 0; i < 10; i++) {fire();}
+       fire();
     }
-
+}
   };*/
 
   var remove = function(id) {
     for(var i = 0; i < running.length; i++) {
       if(running[i].id == id) {
         running.splice(i, 1);
-       for (var i = 0; i < 10; i++) {fire();}
+       fire();
         break;
       }
     }
+      
   };
 
   this.add = function(req,fun,thisArg) {
@@ -77,7 +80,7 @@ function RequestQueue() {
       };
      req.__result = req.__fun.call(req.__thisArg,req);
      running.push(req);
-  for (var i = 0; i < 10; i++) {fire();}
+  fire();
   };
 
   this.abortRunning = function() {
