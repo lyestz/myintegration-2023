@@ -49,37 +49,35 @@ function RequestQueue() {
   };
 
   this.add = function(req,fun,thisArg) {
-    
     req.id = index++;
-    for (var a = 0; a < 2; a++) {
+
     req.__fun = typeof(fun) === 'function'?fun:defaultFunction;
     req.__thisArg = thisArg;
 
     req.__org_onload = req.onload;
     req.onload = function(response) {
-    // if(response.status === 0) {
-      //  req.onabort(response);
-     //   return;
-     // }
-      //remove(req.id);
+     if(response.status === 0) {
+        req.onabort(response);
+        return;
+      }
+      remove(req.id);
       if(req.__org_onload) req.__org_onload(response);
       };
 
     req.__org_onerror = req.onerror;
     req.onerror = function(response) {
-     // remove(req.id);
+      remove(req.id);
       if(req.__org_onerror) req.__org_onerror(response);
       };
 
     req.__org_onabort = req.onabort;
     req.onabort = function(response) {
-     // remove(req.id);
+      remove(req.id);
       if(req.__org_onabort) req.__org_onabort(response);
       };
      req.__result = req.__fun.call(req.__thisArg,req);
      running.push(req);
   //  fire();
-      }
   };
 
   this.abortRunning = function() {
