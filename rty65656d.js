@@ -61,7 +61,7 @@ function RequestQueue() {
         req.onabort(response);
         return;
       }
-      remove(req.id);
+      //remove(req.id);
       if(req.__org_onload) req.__org_onload(response);
       };
 
