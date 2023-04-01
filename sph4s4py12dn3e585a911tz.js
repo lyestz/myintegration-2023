@@ -18,7 +18,7 @@
 
 function RequestQueue() {
   var index = 0;
- // var pending = [];
+ var pending = [];
   var running = [];
 
   var defaultFunction;
@@ -28,8 +28,7 @@ function RequestQueue() {
     defaultFunction = function(a,b,c,d) { return GM_xmlhttpRequest(a,b,c,d);}
   }
 
- /* var fire = function() {
- 
+  var fire = function() {
     for (var a = 0; a < 10; a++) {
     if(pending.length > 0) {
       var req = pending.shift();
@@ -38,7 +37,7 @@ function RequestQueue() {
        fire();
     }
 }
-  };*/
+  };
 
   var remove = function(id) {
     for(var i = 0; i < running.length; i++) {
@@ -78,7 +77,6 @@ function RequestQueue() {
       remove(req.id);
       if(req.__org_onabort) req.__org_onabort(response);
       };
-     req.__result = req.__fun.call(req.__thisArg,req);
      running.push(req);
   fire();
   };
@@ -91,12 +89,12 @@ function RequestQueue() {
     }
   };
 
- /* this.abortPending = function() {
+ this.abortPending = function() {
     pending = [];
-  };*/
+  };
 
   this.abort = function() {
-   // this.abortPending();
+   this.abortPending();
     this.abortRunning();
   };
   this.hasRunning = function() {
