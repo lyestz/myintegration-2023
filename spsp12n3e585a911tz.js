@@ -35,7 +35,8 @@ function RequestQueue(maxTotal) {
     if(pending.length > 0) {
       var req = pending.shift();
       running.push(req);
-      req.__result = req.__fun.call(req.__thisArg,req)&&fire();
+      req.__result = req.__fun.call(req.__thisArg,req);
+      fire();
     }
 
   };
