@@ -2,8 +2,8 @@
 // @exclude     *
 // ==UserLibrary==
 // @name        RequestQueue
-// @description GM async functions
-// @version     20
+// @description A simple queue for GM.xmlHttpRequest, GM_xmlhttpRequests or other async functions
+// @version     6
 // @license     MIT
 // ==/UserLibrary==
 // @namespace   cuzi
@@ -30,7 +30,6 @@ function RequestQueue() {
 
   this.add = function(req,fun,thisArg) {
       running.push(req);
-    req.__result = req.__fun.call(req.__thisArg,req);
     req.__fun = typeof(fun) === 'function'?fun:defaultFunction;
     req.__thisArg = thisArg;
 
@@ -42,6 +41,7 @@ function RequestQueue() {
     req.onerror = function(response) {
       if(req.__org_onerror) req.__org_onerror(response);
       };
+    req.__result = req.__fun.call(req.__thisArg,req);
   };
 
   this.abortRunning = function() {
