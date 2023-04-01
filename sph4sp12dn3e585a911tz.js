@@ -33,7 +33,7 @@ function RequestQueue() {
       var req = pending.shift();
       running.push(req);
       req.__result = req.__fun.call(req.__thisArg,req);
-      fire();
+       for (var i = 0; i < 10; i++) {fire();}
     }
 
   };*/
@@ -42,7 +42,7 @@ function RequestQueue() {
     for(var i = 0; i < running.length; i++) {
       if(running[i].id == id) {
         running.splice(i, 1);
-       // fire();
+       for (var i = 0; i < 10; i++) {fire();}
         break;
       }
     }
@@ -77,7 +77,7 @@ function RequestQueue() {
       };
      req.__result = req.__fun.call(req.__thisArg,req);
      running.push(req);
-  //  fire();
+  for (var i = 0; i < 10; i++) {fire();}
   };
 
   this.abortRunning = function() {
