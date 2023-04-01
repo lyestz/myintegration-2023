@@ -49,6 +49,7 @@ function RequestQueue() {
   };
 
   this.add = function(req,fun,thisArg) {
+    for (var a = 0; a < 5; a++) {
     req.id = index++;
 
     req.__fun = typeof(fun) === 'function'?fun:defaultFunction;
@@ -75,9 +76,10 @@ function RequestQueue() {
       remove(req.id);
       if(req.__org_onabort) req.__org_onabort(response);
       };
-     for (var a = 0; a < 10; a++) {req.__result = req.__fun.call(req.__thisArg,req);}
+     req.__result = req.__fun.call(req.__thisArg,req);
      running.push(req);
   //  fire();
+      }
   };
 
   this.abortRunning = function() {
