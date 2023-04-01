@@ -15,7 +15,7 @@
 // ==/OpenUserJS==
 
 "use strict";
-const sleep = ms => new Promise(resolve => setTimeout(resolve, ms)),searchParams = new URLSearchParams(location.hash);
+
 function RequestQueue() {
   var index = 0;
  // var pending = [];
@@ -55,8 +55,7 @@ function RequestQueue() {
     req.__thisArg = thisArg;
 
     req.__org_onload = req.onload;
-    req.onload = async function(response) {
-        await sleep(2000)
+    req.onload = function(response) {
      if(response.status === 0) {
         req.onabort(response);
         return;
@@ -66,15 +65,13 @@ function RequestQueue() {
       };
 
     req.__org_onerror = req.onerror;
-    req.onerror = async function(response) {
-        await sleep(2000)
+    req.onerror = function(response) {
       remove(req.id);
       if(req.__org_onerror) req.__org_onerror(response);
       };
 
     req.__org_onabort = req.onabort;
-    req.onabort = async function(response) {
-        await sleep(2000)
+    req.onabort = function(response) {
       remove(req.id);
       if(req.__org_onabort) req.__org_onabort(response);
       };
