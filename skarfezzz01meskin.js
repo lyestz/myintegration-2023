@@ -15,9 +15,9 @@
 // ==/OpenUserJS==
 
 "use strict";
-
-function RequestQueue() {
-
+function sleep(ms) {return new Promise((resolve) => setTimeout(resolve, ms));}
+function RequestQueue(waiting) {
+  var slp = parseInt(waiting);
   var running = [];
 
   var defaultFunction;
@@ -34,7 +34,8 @@ function RequestQueue() {
     req.__thisArg = thisArg;
 
     req.__org_onload = req.onload;
-    req.onload = function(response) {
+    req.onload = async function(response) {
+      await sleep(slp);
       if(req.__org_onload) req.__org_onload(response);
       };
     req.__org_onerror = req.onerror;
