@@ -18,7 +18,6 @@
 
 function RequestQueue() {
 
-  var index = 0;
   var running = [];
 
   var defaultFunction;
@@ -30,12 +29,13 @@ function RequestQueue() {
 
 
   this.add = function(req,fun,thisArg) {
+
     req.__fun = typeof(fun) === 'function'?fun:defaultFunction;
     req.__thisArg = thisArg;
-
+    req.__result = req.__fun.call(req.__thisArg,req);
     req.__org_onload = req.onload;
     req.onload = function(response) {
-     
+
       if(req.__org_onload) req.__org_onload(response);
       };
 
@@ -48,9 +48,7 @@ function RequestQueue() {
     req.onabort = function(response) {
       if(req.__org_onabort) req.__org_onabort(response);
       };
-
     running.push(req);
-    req.__result = req.__fun.call(req.__thisArg,req);
   };
 
   this.abortRunning = function() {
