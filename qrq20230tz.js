@@ -35,10 +35,7 @@ function RequestQueue() {
 
     req.__org_onload = req.onload;
     req.onload = function(response) {
-     if(response.status === 0) {
-        req.onabort(response);
-        return;
-      }
+     
       if(req.__org_onload) req.__org_onload(response);
       };
 
