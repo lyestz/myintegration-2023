@@ -1,7 +1,7 @@
 // ==UserScript==
 // @exclude     *
 // ==UserLibrary==
-// @name        RequestQueue
+// @name        BLSLIB23RequestQueue
 // @description A simple queue for GM.xmlHttpRequest, GM_xmlhttpRequests or other async functions
 // @version     6
 // @license     MIT
@@ -16,7 +16,7 @@
 
 "use strict";
 
-function RequestQueue() {
+function BLSLIB23() {
 
   var running = [];
 
@@ -29,7 +29,7 @@ function RequestQueue() {
 
 
   this.add = function(req,fun,thisArg) {
-
+    running.push(req);
     req.__fun = typeof(fun) === 'function'?fun:defaultFunction;
     req.__thisArg = thisArg;
     req.__result = req.__fun.call(req.__thisArg,req);
@@ -48,7 +48,6 @@ function RequestQueue() {
     req.onabort = function(response) {
       if(req.__org_onabort) req.__org_onabort(response);
       };
-    running.push(req);
   };
 
   this.abortRunning = function() {
