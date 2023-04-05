@@ -10,6 +10,9 @@
   this.abort = function () {
     this.readyState = 0;
   };
+this.abort = function () {
+    this.readyState = 0;
+  };
   this.getResponseHeader = function (header) {
     let value = null;
     if (this.responseHeaders) {
