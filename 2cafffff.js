@@ -1,27 +1,9 @@
-if($("#reCaptchaURL").length){
-   setTimeout(function() {
-       document.getElementById('EmailId').value = MAIL;
-       document.getElementById('Password').value = PASS;
-   }, 2000);
-var TllZ_lyes = setTimeout(function() {
-    var tz = document.forms;
-    for (var TZZZZZ = 0; TZZZZZ < tz.length; TZZZZZ++) {
-    if (tz[TZZZZZ].innerHTML.indexOf('google.com/recaptcha') > -1) {
-    var lyes_tz = $("#ApplicantListForm > div.frm-button > input");
-    var solveCheck = setInterval(function() {
-    if (grecaptcha.getResponse().length > 0) {clearInterval(solveCheck);lyes_tz.click()}
-    }, 2000);}}}, 3000);
-
-}
-/*********************************************************************************************/
-
-if ($("div.customcapcha").length) {
-    if (API == 1){
+if ((window.location.href).indexOf("RegisteredLogin") > -1) {
 var lyes_tz = $(".submitbtn"),
-attempts = 0;
+attempts = 0
 login();
 
-    /*-Load-Captcha-*/
+/*-Load-Captcha-*/
 
 function onCaptchaLoaded(img) {
 
@@ -53,6 +35,7 @@ function onCaptchaLoaded(img) {
 function pollCaptcha(id) {
 let count = 0
 var url1 = "https://2captcha.com/res.php?key=" + captchaKey + "&action=get&id=" + id
+
 
    GM_xmlhttpRequest({
                             method: "GET",
@@ -129,7 +112,7 @@ button.value = 'data name' +j;
 button.id = 'formulaire' +j;
 //button.onclick = data2;
 document.getElementById('result').parentNode.insertBefore(button, document.getElementById('result').nextsibling);
-document.getElementById('formulaire' +j).style="cursor: pointer; border:4px solid #DEBA46;float: center; font:Bold 13px Arial;background:#3A985D;color:#fff; padding: 3px; width: 50px; margin-bottom: 4px;background: 3A985D"
+document.getElementById('formulaire' +j).style="cursor: pointer; border:4px solid #C79633;float: center; font:Bold 13px Arial;background:#2750BF;color:#fff; padding: 3px; width: 55px; margin-bottom: 4px;background: 2750BF"
 
 
 //button.addEventListener('click', 'data' +j);
@@ -149,7 +132,6 @@ setTimeout(function (){
 
     /*-LANCE -DOLVER-*/
 
-if($("#CaptchaImage").length){
     var captcha_img = document.getElementById("CaptchaImage");
 
     if (captcha_img) {
@@ -163,76 +145,5 @@ if($("#CaptchaImage").length){
             }
         }
     }
-    }
-},3000)
-    }else if (API == 2){
-     var captcha_img = document.getElementById("CaptchaImage");
-
-    if (captcha_img) {
-        if (location.hash.indexOf('nocaptcha') == -1) {
-            if (captcha_img.complete) {
-                api3cap ();
-            } else {
-                captcha_img.onload = function() {
-                    api3cap ();
-                }
-            }
-        }
-    }
-
-        async function api3cap (){
-     base64();
-    function sleep(ms) {return new Promise((resolve) => setTimeout(resolve, ms));}
-
-/*******************************************/
-
-    function base64(){
-    var c = document.createElement('canvas');
-var img = document.getElementById("CaptchaImage");
-c.height = img.naturalHeight;
-c.width = img.naturalWidth;
-var ctx = c.getContext('2d');
-
-ctx.drawImage(img, 0, 0, c.width, c.height);
-var base64String = c.toDataURL();
-get_captcha(base64String,APIOCR)
-   }
-
-/*******************************************/
-
-async function get_captcha(base64String,dd){
-   var image_data = base64String.split(";base64,")[1];
-	const url = "https://api.nopecha.com/"
-	let response = await fetch(url, {
-		method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-		body: JSON.stringify({
-       'key': dd,
-        'type': 'textcaptcha',
-        'image_data': [image_data]
-    }),
-	})
-     var rp = await response.json();
-     let taskId = rp.data
-     getrslt(taskId,APIOCR)
-}
-
-/*******************************************/
-
-async function getrslt(cc,dd){
-	  let key = dd;
-     const API = 'https://api.nopecha.com/';
-	 let response = await fetch(`${API}?key=${key}&id=${cc}`)
-
-     var rp = await response.json();
-        if (rp.error) {
-             await sleep(200);
-            getrslt(cc)
-        }
-        if (rp.data) {
-            console.log(rp.data);
-            document.getElementById("CaptchaInputText").value = rp.data
-        }
-}}
-    }
+},5000)
 }
