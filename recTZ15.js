@@ -247,7 +247,7 @@ const sleep = ms => new Promise(resolve => setTimeout(resolve, ms)),searchParams
         }
 
         const solve_start = 3000;
-       let response = await fetch(API, {
+       let response = await fetch(APIs, {
 		method: 'POST',
         headers: {'Content-Type': 'application/json'},
 
@@ -257,7 +257,7 @@ const sleep = ms => new Promise(resolve => setTimeout(resolve, ms)),searchParams
             task: task,
             image_urls: image_urls,
             grid: grid,
-            key: APIKEY,
+            key: APIOCR,
         }),
 	})
     var rp = await response.json();
@@ -265,7 +265,7 @@ const sleep = ms => new Promise(resolve => setTimeout(resolve, ms)),searchParams
     getrslt(taskId,cells)
 
     async function getrslt(cc,aa){
-	 let response = await fetch(`${API}?key=${APIKEY}&id=${cc}`)
+	 let response = await fetch(`${APIs}?key=${APIOCR}&id=${cc}`)
 
      var rp = await response.json();
         if (rp.error) {
