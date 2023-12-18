@@ -1,5 +1,5 @@
 
-if(jqryTZ("#reCaptchaURL").length){
+if (window.location.href.match(/https:\/\/www.google.com\/recaptcha\/api\d\/anchor/)){
 const sleep = ms => new Promise(resolve => setTimeout(resolve, ms)),searchParams = new URLSearchParams(location.hash);
 
     let was_solved = false;
