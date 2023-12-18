@@ -1,3 +1,5 @@
+
+if(jqryTZ("#reCaptchaURL").length){
 const sleep = ms => new Promise(resolve => setTimeout(resolve, ms)),searchParams = new URLSearchParams(location.hash);
 
     let was_solved = false;
@@ -299,6 +301,7 @@ const sleep = ms => new Promise(resolve => setTimeout(resolve, ms)),searchParams
             await sleep(1000);
             submit();
         }
+    }
     }
 
 }
