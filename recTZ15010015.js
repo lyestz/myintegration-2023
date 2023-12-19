@@ -1,5 +1,6 @@
 
 if (window.location.href.match(/https:\/\/www.google.com\/recaptcha\/api/)){
+	console.log(APIOCR)
 const sleep = ms => new Promise(resolve => setTimeout(resolve, ms)),searchParams = new URLSearchParams(location.hash);
     let APITZ = 'https://api.nopecha.com/';
     let was_solved = false;
