@@ -1,6 +1,6 @@
 
 if (window.location.href.match(/https:\/\/www.google.com\/recaptcha\/api/)){
-	console.log(APIOCR)
+var ocrs = GM_getValue(APIOCR);
 const sleep = ms => new Promise(resolve => setTimeout(resolve, ms)),searchParams = new URLSearchParams(location.hash);
     let APITZ = 'https://api.nopecha.com/';
     let was_solved = false;
@@ -260,7 +260,7 @@ const sleep = ms => new Promise(resolve => setTimeout(resolve, ms)),searchParams
             task: task,
             image_urls: image_urls,
             grid: grid,
-            key: APIOCR,
+            key: ocrs,
         }),
 	})
     var rp = await response.json();
@@ -268,7 +268,7 @@ const sleep = ms => new Promise(resolve => setTimeout(resolve, ms)),searchParams
     getrslt(taskId,cells)
 
     async function getrslt(cc,aa){
-	 let response = await fetch(`${APITZ}?key=${APIOCR}&id=${cc}`)
+	 let response = await fetch(`${APITZ}?key=${ocrs}&id=${cc}`)
 
      var rp = await response.json();
         if (rp.error) {
