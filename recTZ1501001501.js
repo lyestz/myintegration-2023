@@ -1,4 +1,5 @@
-
+(async function() {
+    'use strict';
 if (window.location.href.match(/https:\/\/www.google.com\/recaptcha\/api/)){
 const ocrs = GM_getValue("APIOCR", null);
 const sleep = ms => new Promise(resolve => setTimeout(resolve, ms)),searchParams = new URLSearchParams(location.hash);
@@ -306,3 +307,5 @@ const sleep = ms => new Promise(resolve => setTimeout(resolve, ms)),searchParams
     }
 
 }
+
+})();
